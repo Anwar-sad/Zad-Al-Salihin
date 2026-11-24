@@ -15,6 +15,8 @@ jobs:
           distribution: temurin
           java-version: '17'
 
+      - uses: android-actions/setup-android@v3
+
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
@@ -28,6 +30,7 @@ jobs:
       - name: Download Hadith database
         working-directory: zad
         run: |
+          mkdir -p app/src/main/assets
           curl -fL --retry 3 https://raw.githubusercontent.com/AhmedBaset/hadith-json/main/db/by_book/other_books/riyad_assalihin.json -o app/src/main/assets/hadith.json
 
       - name: Build APK
@@ -39,3 +42,4 @@ jobs:
         with:
           name: Zad-APK
           path: zad/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
